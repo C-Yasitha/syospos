@@ -12,16 +12,6 @@ CREATE TABLE users (
 
 INSERT INTO users(username,first_name,last_name,password) VALUES ('admin','Admin','User','123');
 
-CREATE TABLE categories (
-  id INT AUTO_INCREMENT PRIMARY KEY,
-  name VARCHAR(255) NOT NULL
-);
-
-CREATE TABLE brands (
-  id INT AUTO_INCREMENT PRIMARY KEY,
-  name VARCHAR(255) NOT NULL
-);
-
 CREATE TABLE products (
   id INT AUTO_INCREMENT PRIMARY KEY,
   product_code VARCHAR(255) UNIQUE NOT NULL,
@@ -33,9 +23,24 @@ CREATE TABLE products (
   product_weight DECIMAL(10,2),
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  category_id INT,
-  brand_id INT,
-  price FLOAT,
-  FOREIGN KEY (category_id) REFERENCES categories(id),
-  FOREIGN KEY (brand_id) REFERENCES brands(id)
+  category VARCHAR(255) NOT NULL,
+  brand VARCHAR(255) NOT NULL,
+  price FLOAT
 );
+
+CREATE TABLE `grns` (
+`id` INT NOT NULL AUTO_INCREMENT,
+`supplier_name` VARCHAR(255) NOT NULL,
+`total` FLOAT NOT NULL ,
+ `is_shelf` BOOLEAN NOT NULL ,
+ PRIMARY KEY (`id`)
+ );
+
+ CREATE TABLE `grn_items` (
+ `id` INT NOT NULL AUTO_INCREMENT ,
+  `grn_id` INT NOT NULL ,
+  `product_code` INT NOT NULL ,
+  `qty` FLOAT NOT NULL ,
+  `cost` FLOAT NOT NULL ,
+  PRIMARY KEY (`id`)
+  );

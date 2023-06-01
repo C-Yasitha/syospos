@@ -1,30 +1,24 @@
 package com.brylix.derp.repository;
 
+import com.brylix.derp.dao.ProductRepository;
 import com.brylix.derp.database.DatabaseQueryExecutor;
-import com.brylix.derp.model.Category;
-import com.brylix.derp.model.Brand;
-import com.brylix.derp.model.Product;
+import com.brylix.derp.dto.ProductDTO;
 
-import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class ProductRepository {
+public class ProductRepositoryImpl implements ProductRepository {
     private DatabaseQueryExecutor queryExecutor;
-    private CategoryRepository categoryRepository;
-    private BrandRepository brandRepository;
 
-    public ProductRepository() {
+    public ProductRepositoryImpl() {
         queryExecutor = new DatabaseQueryExecutor();
-        categoryRepository = new CategoryRepository();
-        brandRepository = new BrandRepository();
     }
 
-    public List<Product> getAllProducts() {
-        List<Product> products = new ArrayList<>();
+    public List<ProductDTO> getAllProducts() {
+        List<ProductDTO> products = new ArrayList<>();
         String query = "SELECT * FROM products";
         try {
             ResultSet resultSet = queryExecutor.executeQuery(query);
@@ -38,14 +32,11 @@ public class ProductRepository {
                 double productWeight = resultSet.getDouble("product_weight");
                 Date createdAt = resultSet.getDate("created_at");
                 Date updatedAt = resultSet.getDate("updated_at");
-                int categoryId = resultSet.getInt("category_id");
-                int brandId = resultSet.getInt("brand_id");
                 Float price = resultSet.getFloat("price");
+                String category = resultSet.getString("category");
+                String brand = resultSet.getString("brand");
 
-                Category category = categoryRepository.getCategoryById(categoryId);
-                Brand brand = brandRepository.getBrandById(brandId);
-
-                Product product = new Product(productCode, productName, productDescription, productImage, lowLevel, isService,
+                ProductDTO product = new ProductDTO(productCode, productName, productDescription, productImage, lowLevel, isService,
                         productWeight, createdAt, updatedAt, category, brand, price);
 
                 products.add(product);
@@ -57,39 +48,39 @@ public class ProductRepository {
         return products;
     }
 
-    public void saveProduct(Product product) {
+    public void saveProduct(ProductDTO product) {
         String query = "INSERT INTO products (product_code, product_name, product_description, product_image, low_level, is_service, " +
-                "product_weight, created_at, updated_at, category_id, brand_id, price) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                "product_weight, category, brand, price) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try {
             queryExecutor.executeUpdate(query, product.getProductCode(), product.getProductName(), product.getProductDescription(),
                     product.getProductImage(), product.getLowLevel(), product.isService(), product.getProductWeight(),
-                    product.getCreatedAt(), product.getUpdatedAt(), product.getCategory().getId(),
-                    product.getBrand().getId(), product.getPrice());
+                    product.getCategory(),
+                    product.getBrand(), product.getPrice());
         } catch (SQLException e) {
             e.printStackTrace();
             // Handle the exception according to your application's error handling mechanism
         }
     }
 
-    public void updateProduct(Product product) {
+    public void updateProduct(ProductDTO product) {
         String query = "UPDATE products SET product_code = ?, product_name = ?, product_description = ?, product_image = ?, " +
-                "low_level = ?, is_service = ?, product_weight = ?, created_at = ?, updated_at = ?, " +
-                "category_id = ?, brand_id = ?, price = ? WHERE product_code = ?";
+                "low_level = ?, is_service = ?, product_weight = ?," +
+                "category = ?, brand = ?, price = ? WHERE product_code = ?";
         try {
             queryExecutor.executeUpdate(query, product.getProductCode(), product.getProductName(), product.getProductDescription(),
                     product.getProductImage(), product.getLowLevel(), product.isService(), product.getProductWeight(),
-                    product.getCreatedAt(), product.getUpdatedAt(), product.getCategory().getId(),
-                    product.getBrand().getId(), product.getPrice(), product.getProductCode());
+                    product.getCategory(),
+                    product.getBrand(), product.getPrice(), product.getProductCode());
         } catch (SQLException e) {
             e.printStackTrace();
             // Handle the exception according to your application's error handling mechanism
         }
     }
 
-    public void deleteProduct(Product product) {
+    public void deleteProduct(String productCode) {
         String query = "DELETE FROM products WHERE product_code = ?";
         try {
-            queryExecutor.executeUpdate(query, product.getProductCode());
+            queryExecutor.executeUpdate(query, productCode);
         } catch (SQLException e) {
             e.printStackTrace();
             // Handle the exception according to your application's error handling mechanism

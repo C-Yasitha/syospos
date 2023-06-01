@@ -11,9 +11,6 @@
 <AnchorPane xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.brylix.derp.controller.ProductsController" prefWidth="600" prefHeight="500">
     <children>
         <Button fx:id="addProductButton" layoutX="20" layoutY="20" text="Add Product" onAction="#handleAddProductButton" />
-        <Button fx:id="addCategoryButton" layoutX="120" layoutY="20" text="Add Category" onAction="#handleAddCategoryButton" />
-        <Button fx:id="addBrandButton" layoutX="220" layoutY="20" text="Add Brand" onAction="#handleAddBrandButton" />
-
         <ScrollPane layoutX="0" fitToWidth="true" AnchorPane.topAnchor="60" AnchorPane.bottomAnchor="0" >
             <content>
                 <TableView fx:id="productsTable" AnchorPane.bottomAnchor="0" minWidth="750" >

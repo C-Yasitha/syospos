@@ -4,8 +4,6 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.control.Tab?>
 <?import com.brylix.derp.controller.ProductsController?>
-<?import com.brylix.derp.controller.CustomersController?>
-<?import com.brylix.derp.controller.SuppliersController?>
 <?import com.brylix.derp.controller.GrnController?>
 <?import com.brylix.derp.controller.InvoiceController?>
 
@@ -17,16 +15,6 @@
                 <Tab text="Products">
                     <content>
                         <fx:include source="Products.fxml" fx:id="productsTab"/>
-                    </content>
-                </Tab>
-                <Tab text="Customers">
-                    <content>
-                        <fx:include source="Customers.fxml" fx:id="customersTab"/>
-                    </content>
-                </Tab>
-                <Tab text="Suppliers">
-                    <content>
-                        <fx:include source="Suppliers.fxml" fx:id="suppliersTab" />
                     </content>
                 </Tab>
                 <Tab text="GRN">

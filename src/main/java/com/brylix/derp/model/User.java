@@ -1,26 +1,72 @@
 package com.brylix.derp.model;
 
-import com.brylix.derp.database.DatabaseQueryExecutor;
+import java.util.Date;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
 public class User {
-    private DatabaseQueryExecutor queryExecutor;
+    private int id;
+    private String userName;
+    private String firstName;
+    private String lastName;
+    private String password;
+    private Date createdAt;
+    private Date updatedAt;
 
     public User() {
-        queryExecutor = new DatabaseQueryExecutor();
     }
 
-    public boolean authenticateUser(String username, String password) {
-        try {
-            String query = "SELECT * FROM users WHERE username = ? AND password = ?";
-            ResultSet resultSet = queryExecutor.executeQuery(query, username, password);
+    public int getId() {
+        return id;
+    }
 
-            return resultSet.next();
-        } catch (SQLException e) {
-            e.printStackTrace();
-            // Handle the exception according to your application's requirements
-        }
-        return false;
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public Date getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public Date getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(Date updatedAt) {
+        this.updatedAt = updatedAt;
     }
 }

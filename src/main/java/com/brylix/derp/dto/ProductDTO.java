@@ -1,9 +1,8 @@
-package com.brylix.derp.model;
+package com.brylix.derp.dto;
 
 import java.util.Date;
 
-public class Product {
-
+public class ProductDTO {
     private String productCode;
     private String productName;
     private String productDescription;
@@ -17,7 +16,7 @@ public class Product {
     private String brand;
     private Float price;
 
-    public Product(String productCode, String productName, String productDescription, String productImage,
+    public ProductDTO(String productCode, String productName, String productDescription, String productImage,
                    int lowLevel, boolean isService, double productWeight, Date createdAt, Date updatedAt,
                    String category,String brand, Float price) {
         this.productCode = productCode;

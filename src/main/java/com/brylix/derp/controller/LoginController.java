@@ -1,5 +1,8 @@
 package com.brylix.derp.controller;
 
+import com.brylix.derp.dao.UserDAO;
+import com.brylix.derp.dto.UserAuthDTO;
+import com.brylix.derp.factory.UserDAOFactory;
 import com.brylix.derp.model.User;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -34,10 +37,11 @@ public class LoginController {
         String password = passwordField.getText();
 
         // Create a User object
-        User user = new User();
+        UserDAO userDAO = UserDAOFactory.getUserDAO();
 
         // Authenticate the user
-        boolean isAuthenticated = user.authenticateUser(username, password);
+        UserAuthDTO enterdUser = new UserAuthDTO(username,password);
+        boolean isAuthenticated = userDAO.authenticateUser(enterdUser);
 
         if (isAuthenticated) {
             // Successful login, proceed to the next screen or perform other actions
