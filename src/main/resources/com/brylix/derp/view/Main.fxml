@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.control.Tab?>
+<?import com.brylix.derp.controller.ProductsController?>
+<?import com.brylix.derp.controller.CustomersController?>
+<?import com.brylix.derp.controller.SuppliersController?>
+<?import com.brylix.derp.controller.GrnController?>
+<?import com.brylix.derp.controller.InvoiceController?>
+
+
+<AnchorPane xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.brylix.derp.controller.MainController" prefWidth="600" prefHeight="500">
+    <children>
+        <TabPane tabClosingPolicy="UNAVAILABLE" AnchorPane.topAnchor="0" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0">
+            <tabs>
+                <Tab text="Products">
+                    <content>
+                        <fx:include source="Products.fxml" fx:id="productsTab"/>
+                    </content>
+                </Tab>
+                <Tab text="Customers">
+                    <content>
+                        <fx:include source="Customers.fxml" fx:id="customersTab"/>
+                    </content>
+                </Tab>
+                <Tab text="Suppliers">
+                    <content>
+                        <fx:include source="Suppliers.fxml" fx:id="suppliersTab" />
+                    </content>
+                </Tab>
+                <Tab text="GRN">
+                    <content>
+                        <fx:include source="Grn.fxml" fx:id="grnTab"/>
+                    </content>
+                </Tab>
+                <Tab text="Invoice">
+                    <content>
+                        <fx:include source="Invoice.fxml" fx:id="invoiceTab"/>
+                    </content>
+                </Tab>
+                <Tab text="Reports">
+                    <content>
+                        <fx:include source="Reports.fxml" fx:id="reportsTab"/>
+                    </content>
+                </Tab>
+            </tabs>
+        </TabPane>
+    </children>
+</AnchorPane>
