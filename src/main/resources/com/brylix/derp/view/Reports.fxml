@@ -1,14 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
+<?import javafx.collections.FXCollections?>
+
+<?import javafx.scene.web.WebView?>
 <AnchorPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="com.brylix.derp.controller.ReportsController"
-            prefHeight="400.0" prefWidth="600.0">
+            prefHeight="500.0" prefWidth="600.0">
+   <HBox spacing="10" alignment="center">
+      <DatePicker fx:id="datePicker" />
+      <ComboBox fx:id="comboBox" prefWidth="150">
+         <items>
+            <FXCollections fx:factory="observableArrayList">
+               <String fx:value="Total sale" />
+               <String fx:value="Number of items " />
+               <String fx:value="Reorder levels" />
+               <String fx:value="Stock report" />
+               <String fx:value="Bill report" />
+            </FXCollections>
+         </items>
+      </ComboBox>
+      <Button text="Search" fx:id="searchButton" onAction="#handleSearchButtonAction" />
+   </HBox>
 
+   <WebView fx:id="webView" AnchorPane.topAnchor="40" AnchorPane.bottomAnchor="0"
+            AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" />
 </AnchorPane>

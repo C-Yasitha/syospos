@@ -47,3 +47,21 @@ CREATE TABLE `grns` (
   `cost` FLOAT NOT NULL ,
   PRIMARY KEY (`id`)
   );
+
+CREATE TABLE `invoices` (
+`id` INT NOT NULL AUTO_INCREMENT ,
+`customer` VARCHAR(255) NOT NULL ,
+`inv_date` DATE NOT NULL ,
+`total` FLOAT NOT NULL ,
+`discount` FLOAT NOT NULL ,
+`tendered` FLOAT NOT NULL ,
+PRIMARY KEY (`id`));
+
+CREATE TABLE `invoice_items` (
+`id` INT NOT NULL AUTO_INCREMENT ,
+`invoice_id` INT NOT NULL ,
+`product_code` INT NOT NULL ,
+`product_name` VARCHAR(255) NOT NULL ,
+`price` FLOAT NOT NULL ,
+`qty` FLOAT NOT NULL ,
+PRIMARY KEY (`id`));

@@ -17,6 +17,7 @@ public class ProductDTO {
     private String category;
     private String brand;
     private Float price;
+    private Float qty;
 
     public ProductDTO(String productCode, String productName, String productDescription, String productImage,
                    int lowLevel, boolean isService, double productWeight, Date createdAt, Date updatedAt,
@@ -137,5 +138,13 @@ public class ProductDTO {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public Float getQty() {
+        return qty;
+    }
+
+    public void setQty(Float qty) {
+        this.qty = qty;
     }
 }

@@ -9,6 +9,23 @@
 <AnchorPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="com.brylix.derp.controller.InvoiceController"
-            prefHeight="400.0" prefWidth="600.0">
+            prefHeight="500.0" prefWidth="600.0">
+    <children>
+        <Button fx:id="addInvoiceButton" layoutX="20" layoutY="20" text="Add Invoice" onAction="#handleAddGrnButton" />
+        <ScrollPane layoutX="0" fitToWidth="true" AnchorPane.topAnchor="60" AnchorPane.bottomAnchor="0" >
+            <content>
+                <TableView fx:id="invoiceTable" AnchorPane.bottomAnchor="0" minWidth="750" >
+                    <columns>
+                        <TableColumn fx:id="idColumn" text="Id" prefWidth="100" />
+                        <TableColumn fx:id="dateColumn" text="Date" prefWidth="150" />
+                        <TableColumn fx:id="customerColumn" text="Customer" prefWidth="150" />
+                        <TableColumn fx:id="totalColumn" text="Total" prefWidth="200" />
+                        <TableColumn fx:id="discountColumn" text="Discount" prefWidth="100" />
+                        <TableColumn fx:id="tenderedColumn" text="Cash tendered" prefWidth="100" />
+                    </columns>
+                </TableView>
+            </content>
+        </ScrollPane>
+    </children>
 
 </AnchorPane>

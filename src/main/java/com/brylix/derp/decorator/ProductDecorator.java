@@ -19,8 +19,8 @@ public class ProductDecorator implements ProductDAO {
     }
 
     @Override
-    public ProductDTO getProductByCode(String productCode) {
-        return this.productDAO.getProductByCode(productCode);
+    public ProductDTO getProductByCode(String productCode,boolean withStock) {
+        return this.productDAO.getProductByCode(productCode,withStock);
     }
 
     @Override

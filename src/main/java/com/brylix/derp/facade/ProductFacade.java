@@ -16,8 +16,8 @@ public class ProductFacade {
         return this.productServiceImpl.getAllProducts();
     }
 
-    public ProductDTO getProductByCode(String productCode){
-        return this.productServiceImpl.getProductByCode(productCode);
+    public ProductDTO getProductByCode(String productCode,boolean withStock){
+        return this.productServiceImpl.getProductByCode(productCode,withStock);
     }
 
     public void saveProduct(ProductDTO product) {

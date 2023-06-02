@@ -7,6 +7,7 @@ module com.brylix.derp {
     requires com.dlsc.formsfx;
     requires org.kordamp.ikonli.javafx;
     requires org.kordamp.bootstrapfx.core;
+    requires javafx.web;
 
     opens com.brylix.derp.controller to javafx.fxml;
 

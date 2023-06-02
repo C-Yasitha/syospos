@@ -47,7 +47,7 @@ public class GrnController {
     private ObservableList<GrnDTO> grns;
     private ProductDAO productDAO;
     private GrnDAO grnDAO;
-    Float total= 0.00F;
+    private Float total= 0.00F;
 
     public void initialize() {
         loadProducts();
@@ -170,7 +170,7 @@ public class GrnController {
         TableColumn<GrnItemDTO, String> expColumn = new TableColumn<>("Expire");
         expColumn.setCellValueFactory(new PropertyValueFactory<>("expDate"));
 
-        TableColumn<GrnItemDTO, Integer> qtyColumn = new TableColumn<>("Quantity");
+        TableColumn<GrnItemDTO, Double> qtyColumn = new TableColumn<>("Quantity");
         qtyColumn.setCellValueFactory(new PropertyValueFactory<>("qty"));
 
         TableColumn<GrnItemDTO, Double> costColumn = new TableColumn<>("Cost");
@@ -181,7 +181,7 @@ public class GrnController {
         // Set up the Add button action
         addToTable.setOnAction(event -> {
             String productCode = productCodeTextField.getText();
-            ProductDTO selectedProduct = productDAO.getProductByCode(productCode);
+            ProductDTO selectedProduct = productDAO.getProductByCode(productCode,false);
             if(selectedProduct!=null){
                 try{
                     String quantity = productQtyTextField.getText();

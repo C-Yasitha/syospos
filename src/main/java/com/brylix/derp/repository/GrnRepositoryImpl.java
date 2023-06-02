@@ -4,6 +4,7 @@ import com.brylix.derp.dao.GrnRepository;
 import com.brylix.derp.database.DatabaseQueryExecutor;
 import com.brylix.derp.dto.GrnDTO;
 import com.brylix.derp.dto.GrnItemDTO;
+import com.brylix.derp.dto.InvoiceItemDTO;
 import com.brylix.derp.dto.ProductDTO;
 import com.brylix.derp.model.Grn;
 
@@ -91,4 +92,47 @@ public class GrnRepositoryImpl implements GrnRepository {
         }
     }
 
+    public Float getStock(int productId){
+        String query = "SELECT SUM(gi.qty) AS stock FROM grn_items gi, grns g WHERE g.id=gi.grn_id AND gi.product_id= ? AND gi.qty>0 AND g.is_shelf=1 GROUP BY gi.product_id";
+        try {
+            ResultSet resultSet = queryExecutor.executeQuery(query,productId);
+            if (resultSet.next()) {
+                return resultSet.getFloat("stock");
+            }else{
+                return 0.00F;
+            }
+        }catch(SQLException e) {
+            e.printStackTrace();
+            return 0.00F;
+            // Handle the exception according to your application's error handling mechanism
+        }
+    }
+
+    public void reduceStock(List<InvoiceItemDTO> invoiceItems){
+
+        for (InvoiceItemDTO invoiceItemDTO : invoiceItems){
+            String query = "UPDATE grn_items SET qty = CASE " +
+                    "WHEN (SELECT SUM(qty) FROM grn_items WHERE product_id = ? AND exp_date >= CURDATE()) >= ? THEN " +
+                    "    CASE " +
+                    "        WHEN (SELECT SUM(qty) FROM grn_items WHERE product_id = ? AND exp_date >= CURDATE()) - ? >= 0 THEN " +
+                    "            (SELECT SUM(qty) FROM grn_items WHERE product_id = ? AND exp_date >= CURDATE()) - ? " +
+                    "        ELSE 0 " +
+                    "    END " +
+                    "ELSE " +
+                    "    CASE " +
+                    "        WHEN (SELECT SUM(qty) FROM grn_items WHERE product_id = ? AND exp_date >= CURDATE()) - ? >= 0 THEN " +
+                    "            qty - ? " +
+                    "        ELSE 0 " +
+                    "    END " +
+                    "END " +
+                    "WHERE product_id = ? AND exp_date >= CURDATE()";
+            try {
+                queryExecutor.executeUpdate(query,invoiceItemDTO.getProductCode(),invoiceItemDTO.getQty(),invoiceItemDTO.getProductCode(),invoiceItemDTO.getQty(),invoiceItemDTO.getProductCode(),invoiceItemDTO.getQty(),invoiceItemDTO.getProductCode(),invoiceItemDTO.getQty(),invoiceItemDTO.getQty(),invoiceItemDTO.getProductCode());
+            } catch (SQLException e) {
+                e.printStackTrace();
+                // Handle the exception according to your application's error handling mechanism sql query to reduce grn item stock for given value but reduce form latest expire date and if one row can't reduce reduce from next row
+            }
+        }
+
+    }
 }

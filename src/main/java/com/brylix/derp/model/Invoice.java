@@ -1,20 +1,18 @@
-package com.brylix.derp.dto;
-
-import com.brylix.derp.model.InvoiceItem;
+package com.brylix.derp.model;
 
 import java.util.Date;
 import java.util.List;
 
-public class InvoiceDTO {
+public class Invoice {
     private int id;
     private String customer;
     private Date invDate;
     private Float total;
     private Float discount;
     private Float tendered;
-    private List<InvoiceItemDTO> products;
+    private List<InvoiceItem> products;
 
-    public InvoiceDTO(String customer, Date invDate, Float total, Float discount, Float tendered, List<InvoiceItemDTO> products) {
+    public Invoice(String customer, Date invDate, Float total, Float discount, Float tendered, List<InvoiceItem> products) {
         this.customer = customer;
         this.invDate = invDate;
         this.total = total;
@@ -71,11 +69,11 @@ public class InvoiceDTO {
         this.tendered = tendered;
     }
 
-    public List<InvoiceItemDTO> getProducts() {
+    public List<InvoiceItem> getProducts() {
         return products;
     }
 
-    public void setProducts(List<InvoiceItemDTO> products) {
+    public void setProducts(List<InvoiceItem> products) {
         this.products = products;
     }
 }

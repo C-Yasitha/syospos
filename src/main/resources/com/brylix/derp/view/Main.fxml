@@ -8,7 +8,7 @@
 <?import com.brylix.derp.controller.InvoiceController?>
 
 
-<AnchorPane xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.brylix.derp.controller.MainController" prefWidth="600" prefHeight="500">
+<AnchorPane xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.brylix.derp.controller.MainController" prefWidth="700" prefHeight="500">
     <children>
         <TabPane tabClosingPolicy="UNAVAILABLE" AnchorPane.topAnchor="0" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0">
             <tabs>

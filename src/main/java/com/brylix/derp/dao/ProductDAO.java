@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface ProductDAO {
     public List<ProductDTO> getAllProducts();
-    public ProductDTO getProductByCode(String productCode);
+    public ProductDTO getProductByCode(String productCode,boolean withStock);
     public void saveProduct(ProductDTO product);
     public void updateProduct(ProductDTO product);
     public void deleteProduct(String productCode);

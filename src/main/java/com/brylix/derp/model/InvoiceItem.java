@@ -1,6 +1,6 @@
-package com.brylix.derp.dto;
+package com.brylix.derp.model;
 
-public class InvoiceItemDTO {
+public class InvoiceItem {
     private int id;
     private int invoiceId;
     private int productCode;
@@ -8,7 +8,7 @@ public class InvoiceItemDTO {
     private Float price;
     private Float qty;
 
-    public InvoiceItemDTO(int productCode, String productName, Float price, Float qty) {
+    public InvoiceItem(int productCode, String productName, Float price, Float qty) {
         this.productCode = productCode;
         this.productName = productName;
         this.price = price;
