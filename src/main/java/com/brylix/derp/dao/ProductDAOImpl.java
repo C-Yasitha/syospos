@@ -20,6 +20,11 @@ public class ProductDAOImpl implements ProductDAO{
     }
 
     @Override
+    public ProductDTO getProductByCode(String productCode) {
+        return productFacade.getProductByCode(productCode);
+    }
+
+    @Override
     public void saveProduct(ProductDTO product) {
         productFacade.saveProduct(product);
     }

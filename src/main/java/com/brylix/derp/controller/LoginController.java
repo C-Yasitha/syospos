@@ -30,18 +30,18 @@ public class LoginController {
 
     @FXML
     private Button exitButton;
+    private UserDAO userDAO;
+
+    public LoginController() {
+        userDAO = UserDAOFactory.getUserDAO();
+    }
 
     @FXML
     private void handleLoginButton(ActionEvent event) {
         String username = usernameField.getText();
         String password = passwordField.getText();
 
-        // Create a User object
-        UserDAO userDAO = UserDAOFactory.getUserDAO();
-
-        // Authenticate the user
-        UserAuthDTO enterdUser = new UserAuthDTO(username,password);
-        boolean isAuthenticated = userDAO.authenticateUser(enterdUser);
+        boolean isAuthenticated = Login(username,password);
 
         if (isAuthenticated) {
             // Successful login, proceed to the next screen or perform other actions
@@ -81,6 +81,13 @@ public class LoginController {
         }
     }
 
+    public boolean Login(String username,String password){
+        // Authenticate the user
+        UserAuthDTO enterdUser = new UserAuthDTO(username,password);
+        boolean isAuthenticated = userDAO.authenticateUser(enterdUser);
+        return isAuthenticated;
+    }
+
     @FXML
     private void handleExitButton(ActionEvent event) {
         // Exit the application
@@ -94,4 +101,5 @@ public class LoginController {
         alert.setContentText(message);
         alert.showAndWait();
     }
+
 }

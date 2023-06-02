@@ -4,6 +4,7 @@ import java.util.Date;
 
 public class Product {
 
+    private int id;
     private String productCode;
     private String productName;
     private String productDescription;
@@ -128,5 +129,13 @@ public class Product {
 
     public void setPrice(Float price) {
         this.price = price;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }

@@ -22,15 +22,6 @@ import java.util.Optional;
 public class ProductsController {
 
     @FXML
-    private Button addProductButton;
-
-    @FXML
-    private Button addCategoryButton;
-
-    @FXML
-    private Button addBrandButton;
-
-    @FXML
     private TableView<ProductDTO> productsTable;
 
     @FXML

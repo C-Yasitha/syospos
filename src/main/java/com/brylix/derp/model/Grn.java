@@ -1,18 +1,19 @@
-package com.brylix.derp.dto;
+package com.brylix.derp.model;
+
+import com.brylix.derp.dto.GrnItemDTO;
 
 import java.util.Date;
 import java.util.List;
 
-public class GrnDTO {
+public class Grn {
     private int id;
     private Date grnDate;
     private String supplierName;
     private Float total;
     private boolean isShelf;
-    private String shelfStatus;
-    private List<GrnItemDTO> grnItems;
+    private List<GrnItem> grnItems;
 
-    public GrnDTO(String supplierName, Float total, boolean isShelf, List<GrnItemDTO> grnItems) {
+    public Grn(String supplierName, Float total, boolean isShelf, List<GrnItem> grnItems) {
         this.supplierName = supplierName;
         this.total = total;
         this.isShelf = isShelf;
@@ -51,11 +52,11 @@ public class GrnDTO {
         isShelf = shelf;
     }
 
-    public List<GrnItemDTO> getGrnItems() {
+    public List<GrnItem> getGrnItems() {
         return grnItems;
     }
 
-    public void setGrnItems(List<GrnItemDTO> grnItems) {
+    public void setGrnItems(List<GrnItem> grnItems) {
         this.grnItems = grnItems;
     }
 
@@ -65,13 +66,5 @@ public class GrnDTO {
 
     public void setGrnDate(Date grnDate) {
         this.grnDate = grnDate;
-    }
-
-    public String getShelfStatus() {
-        return shelfStatus;
-    }
-
-    public void setShelfStatus(String shelfStatus) {
-        this.shelfStatus = shelfStatus;
     }
 }

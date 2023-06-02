@@ -19,6 +19,11 @@ public class ProductDecorator implements ProductDAO {
     }
 
     @Override
+    public ProductDTO getProductByCode(String productCode) {
+        return this.productDAO.getProductByCode(productCode);
+    }
+
+    @Override
     public void saveProduct(ProductDTO product) {
         this.productDAO.saveProduct(product);
     }

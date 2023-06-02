@@ -17,9 +17,11 @@
                 <TableView fx:id="grnTable" AnchorPane.bottomAnchor="0" minWidth="750" >
                     <columns>
                         <TableColumn fx:id="idColumn" text="Id" prefWidth="100" />
+                        <TableColumn fx:id="dateColumn" text="Date" prefWidth="150" />
                         <TableColumn fx:id="supplierColumn" text="Supplier" prefWidth="150" />
                         <TableColumn fx:id="totalColumn" text="total" prefWidth="200" />
                         <TableColumn fx:id="isShelfColumn" text="Is Shelf" prefWidth="100" />
+                        <TableColumn fx:id="actionColumn" text="Action" prefWidth="100" />
                     </columns>
                 </TableView>
             </content>

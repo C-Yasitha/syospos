@@ -30,6 +30,7 @@ CREATE TABLE products (
 
 CREATE TABLE `grns` (
 `id` INT NOT NULL AUTO_INCREMENT,
+`grn_date` DATE NOT NULL,
 `supplier_name` VARCHAR(255) NOT NULL,
 `total` FLOAT NOT NULL ,
  `is_shelf` BOOLEAN NOT NULL ,
@@ -39,7 +40,9 @@ CREATE TABLE `grns` (
  CREATE TABLE `grn_items` (
  `id` INT NOT NULL AUTO_INCREMENT ,
   `grn_id` INT NOT NULL ,
-  `product_code` INT NOT NULL ,
+  `product_id` INT NOT NULL ,
+  `product_name` VARCHAR(255) NOT NULL,
+  `exp_date` DATE NOT NULL ,
   `qty` FLOAT NOT NULL ,
   `cost` FLOAT NOT NULL ,
   PRIMARY KEY (`id`)

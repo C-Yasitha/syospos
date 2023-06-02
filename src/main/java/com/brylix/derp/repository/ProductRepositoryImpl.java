@@ -3,6 +3,7 @@ package com.brylix.derp.repository;
 import com.brylix.derp.dao.ProductRepository;
 import com.brylix.derp.database.DatabaseQueryExecutor;
 import com.brylix.derp.dto.ProductDTO;
+import com.brylix.derp.model.Product;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -58,6 +59,38 @@ public class ProductRepositoryImpl implements ProductRepository {
                     product.getBrand(), product.getPrice());
         } catch (SQLException e) {
             e.printStackTrace();
+            // Handle the exception according to your application's error handling mechanism
+        }
+    }
+
+    public Product getProductByCode(String code){
+        String query = "SELECT * FROM products WHERE product_code= ? ";
+        try {
+            ResultSet resultSet = queryExecutor.executeQuery(query,code);
+            if (resultSet.next()) {
+                String productCode = resultSet.getString("product_code");
+                String productName = resultSet.getString("product_name");
+                String productDescription = resultSet.getString("product_description");
+                String productImage = resultSet.getString("product_image");
+                int lowLevel = resultSet.getInt("low_level");
+                boolean isService = resultSet.getBoolean("is_service");
+                double productWeight = resultSet.getDouble("product_weight");
+                Date createdAt = resultSet.getDate("created_at");
+                Date updatedAt = resultSet.getDate("updated_at");
+                Float price = resultSet.getFloat("price");
+                String category = resultSet.getString("category");
+                String brand = resultSet.getString("brand");
+                Product selectedProduct = new Product(productCode, productName, productDescription, productImage, lowLevel, isService,
+                        productWeight, createdAt, updatedAt, category, brand, price);
+                selectedProduct.setId(resultSet.getInt("id"));
+
+                return selectedProduct;
+            }else{
+                return null;
+            }
+        }catch (SQLException e) {
+            e.printStackTrace();
+            return null;
             // Handle the exception according to your application's error handling mechanism
         }
     }

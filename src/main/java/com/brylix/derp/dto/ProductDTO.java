@@ -3,6 +3,8 @@ package com.brylix.derp.dto;
 import java.util.Date;
 
 public class ProductDTO {
+
+    private int id;
     private String productCode;
     private String productName;
     private String productDescription;
@@ -127,5 +129,13 @@ public class ProductDTO {
 
     public void setPrice(Float price) {
         this.price = price;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }
