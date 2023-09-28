@@ -18,9 +18,19 @@ public class DatabaseQueryExecutor {
     }
 
     public int executeUpdate(String query, Object... params) throws SQLException {
-        PreparedStatement statement = connection.prepareStatement(query);
+        PreparedStatement statement = connection.prepareStatement(query,PreparedStatement.RETURN_GENERATED_KEYS);
         setStatementParameters(statement, params);
-        return statement.executeUpdate();
+        int affectedRows = statement.executeUpdate();
+        int rowId = 0;
+        if (affectedRows > 0) {
+            // Retrieve the generated keys
+            ResultSet generatedKeys = statement.getGeneratedKeys();
+            if (generatedKeys.next()) {
+                // Get the generated row ID
+                rowId = generatedKeys.getInt(1);
+            }
+        }
+        return rowId;
     }
 
     private void setStatementParameters(PreparedStatement statement, Object... params) throws SQLException {

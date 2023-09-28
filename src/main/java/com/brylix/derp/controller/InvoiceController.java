@@ -185,7 +185,7 @@ public class InvoiceController {
                     discount = Float.parseFloat(discountTextField.getText());
                 }catch(NumberFormatException ee){}
 
-                if(tendered>0 && total>tendered){
+                if(tendered>0){
                     changeLabel.setText("Change:"+(total-discount-tendered));
                 }
             }catch(NumberFormatException nue){}

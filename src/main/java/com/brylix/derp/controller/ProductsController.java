@@ -326,13 +326,24 @@ public class ProductsController {
                     showAlert(Alert.AlertType.INFORMATION, "Product updated successfully.");
                 } else {
                     // Create a new product
-                    productDAO.saveProduct(product);
+                    saveProductWithValidation(product);
                     showAlert(Alert.AlertType.INFORMATION, "Product created successfully.");
                 }
                 // Refresh the product list view
                 loadProducts();
             });
     }
+
+    public boolean saveProductWithValidation(ProductDTO product){
+        if(product.getProductCode()!=null && product.getProductName()!=null && product.getPrice()!=null && product.getLowLevel()>0){
+            productDAO.saveProduct(product);
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+
 
     private void updateSaveButtonState(Node saveButton, TextField codeField, TextField nameField,
                                        TextField descriptionField, TextField priceField,

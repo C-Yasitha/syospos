@@ -244,12 +244,22 @@ public class GrnController {
         result.ifPresent(grn -> {
             if(grn!=null){
                 // productDAO.saveProduct(product);
-                grnDAO.saveGrn(grn);
+                CreateGrn(grn);
                 //  loadProducts();
                 loadProducts();
             }
 
         });
+    }
+
+    public boolean CreateGrn(GrnDTO grnDTO){
+        if(grnDTO.getGrnItems().size()>0 && grnDTO.getSupplierName()!=null && grnDTO.getTotal()>0){
+            grnDAO.saveGrn(grnDTO);
+            return true;
+        }else{
+            return false;
+        }
+
     }
 
     private void showAlert(Alert.AlertType alertType, String message) {
