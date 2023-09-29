@@ -11,7 +11,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
+import javafx.application.Platform;
 
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -165,7 +165,7 @@ public class InvoiceController {
                             productCodeTextField.requestFocus();
                             totalLabel.setText("Total: " + total);
                         } else {
-                            showAlert(Alert.AlertType.ERROR, "No stock in the shelf");
+                            showAlert(Alert.AlertType.ERROR, "No stock in the shelf or expired");
                         }
 
                     } catch (NumberFormatException e) {
@@ -239,12 +239,16 @@ public class InvoiceController {
         Optional<InvoiceDTO> result = dialog.showAndWait();
         result.ifPresent(invoice -> {
             if(invoice!=null){
-                try {
-                    invoiceDAO.saveInvoice(invoice);
-                    loadProducts();
-                }catch(Exception e){
-                    showAlert(Alert.AlertType.ERROR, "Save invoice : "+e.getMessage());
-                }
+                new Thread(() -> {
+                    try {
+                        invoiceDAO.saveInvoice(invoice);
+                        Platform.runLater(() -> {
+                            loadProducts();
+                        });
+                    }catch(Exception e){
+                        showAlert(Alert.AlertType.ERROR, "Save invoice : "+e.getMessage());
+                    }
+                }).start();
             }
         });
     }

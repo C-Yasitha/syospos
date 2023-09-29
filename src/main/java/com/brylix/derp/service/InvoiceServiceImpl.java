@@ -17,7 +17,7 @@ public class InvoiceServiceImpl implements InvoiceService {
 
     public void saveInvoice(InvoiceDTO invoice) throws Exception {
         String apiOutput = null;
-
+      //  System.out.println(invoice.toString());
         apiOutput = apiClient.callAPI("invoice", invoice.toString(),"POST");
 
         if(apiOutput != null && apiOutput.contains("data")){
