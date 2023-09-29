@@ -1,8 +1,11 @@
 package com.brylix.derp.dto;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 public class UserAuthDTO {
-    private String userName;
-    private String password;
+    public String userName;
+    public String password;
 
     public UserAuthDTO(String userName, String password) {
         this.userName = userName;
@@ -23,5 +26,13 @@ public class UserAuthDTO {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    @Override
+    public String toString() {
+        Gson gson = new GsonBuilder()
+                .setDateFormat("yyyy-MM-d H:mm:ss") // setting date format
+                .create();
+        return  gson.toJson(this);
     }
 }

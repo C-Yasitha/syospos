@@ -1,18 +1,20 @@
 package com.brylix.derp.dto;
 
 import com.brylix.derp.model.InvoiceItem;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import java.util.Date;
 import java.util.List;
 
 public class InvoiceDTO {
-    private int id;
-    private String customer;
-    private Date invDate;
-    private Float total;
-    private Float discount;
-    private Float tendered;
-    private List<InvoiceItemDTO> products;
+    public int id;
+    public String customer;
+    public Date invDate;
+    public Float total;
+    public Float discount;
+    public Float tendered;
+    public List<InvoiceItemDTO> products;
 
     public InvoiceDTO(String customer, Date invDate, Float total, Float discount, Float tendered, List<InvoiceItemDTO> products) {
         this.customer = customer;
@@ -77,5 +79,13 @@ public class InvoiceDTO {
 
     public void setProducts(List<InvoiceItemDTO> products) {
         this.products = products;
+    }
+
+    @Override
+    public String toString() {
+        Gson gson = new GsonBuilder()
+                .setDateFormat("yyyy-MM-d H:mm:ss") // setting date format
+                .create();
+        return  gson.toJson(this);
     }
 }

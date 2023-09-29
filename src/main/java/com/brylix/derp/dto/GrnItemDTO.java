@@ -1,15 +1,18 @@
 package com.brylix.derp.dto;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 import java.util.Date;
 
 public class GrnItemDTO {
-    private int id;
-    private int grnId;
-    private int productId;
-    private String productName;
-    private Date expDate;
-    private Float qty;
-    private Float cost;
+    public int id;
+    public int grnId;
+    public int productId;
+    public String productName;
+    public Date expDate;
+    public Float qty;
+    public Float cost;
 
     public GrnItemDTO(int productId, String productName, Date expDate, Float qty, Float cost) {
         this.productId = productId;
@@ -73,5 +76,13 @@ public class GrnItemDTO {
 
     public void setCost(Float cost) {
         this.cost = cost;
+    }
+
+    @Override
+    public String toString() {
+        Gson gson = new GsonBuilder()
+                .setDateFormat("yyyy-MM-d H:mm:ss") // setting date format
+                .create();
+        return  gson.toJson(this);
     }
 }

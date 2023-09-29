@@ -1,16 +1,19 @@
 package com.brylix.derp.dto;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 import java.util.Date;
 import java.util.List;
 
 public class GrnDTO {
-    private int id;
-    private Date grnDate;
-    private String supplierName;
-    private Float total;
-    private boolean isShelf;
-    private String shelfStatus;
-    private List<GrnItemDTO> grnItems;
+    public int id;
+    public Date grnDate;
+    public String supplierName;
+    public Float total;
+    public boolean isShelf;
+    public String shelfStatus;
+    public List<GrnItemDTO> grnItems;
 
     public GrnDTO(String supplierName, Float total, boolean isShelf, List<GrnItemDTO> grnItems) {
         this.supplierName = supplierName;
@@ -73,5 +76,13 @@ public class GrnDTO {
 
     public void setShelfStatus(String shelfStatus) {
         this.shelfStatus = shelfStatus;
+    }
+
+    @Override
+    public String toString() {
+        Gson gson = new GsonBuilder()
+                .setDateFormat("yyyy-MM-d H:mm:ss") // setting date format
+                .create();
+        return  gson.toJson(this);
     }
 }

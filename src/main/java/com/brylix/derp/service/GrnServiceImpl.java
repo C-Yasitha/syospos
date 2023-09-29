@@ -1,12 +1,16 @@
 package com.brylix.derp.service;
 
+import com.brylix.derp.client.ApiClient;
 import com.brylix.derp.dao.GrnRepository;
 import com.brylix.derp.dao.GrnService;
 import com.brylix.derp.dto.GrnDTO;
+import com.brylix.derp.dto.ProductDTO;
 import com.brylix.derp.repository.GrnRepositoryImpl;
+import com.google.gson.*;
 
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -20,14 +24,61 @@ public class GrnServiceImpl implements GrnService {
     public void saveGrn(GrnDTO grn) {
         Date addedDate = Date.from(LocalDate.now().atStartOfDay(ZoneId.systemDefault()).toInstant());
         grn.setGrnDate(addedDate);
-        this.grnRepositoryImpl.saveGrn(grn);
+
+        ApiClient apiClient = new ApiClient();
+        String apiOutput = null;
+        try {
+            apiOutput = apiClient.callAPI("grn", grn.toString(),"POST");
+        }catch(Exception ex){
+            System.out.println(ex.getMessage());
+        }
+
+        if(apiOutput != null && apiOutput.contains("data")){
+            System.out.println(apiOutput);
+        }
     }
 
     public List<GrnDTO> getAllGrns() {
-        return this.grnRepositoryImpl.getAllGrns();
+
+        ApiClient apiClient = new ApiClient();
+        String apiOutput = null;
+        try {
+            apiOutput = apiClient.callAPI("grn", "","GET");
+        }catch(Exception ex){
+            System.out.println(ex.getMessage());
+        }
+
+        List<GrnDTO> grnList  = new ArrayList<>();
+        Gson gson = new GsonBuilder()
+                .setDateFormat("yyyy-MM-d H:mm:ss") // setting date format
+                .create();
+
+        if(apiOutput != null && apiOutput.contains("data")){
+            JsonParser parser = new JsonParser();
+            JsonObject jsonObject = parser.parse(apiOutput).getAsJsonObject();
+
+            String data = jsonObject.get("data").getAsString();
+            JsonArray jsonArray = JsonParser.parseString(data).getAsJsonArray();
+
+            for (int i = 0; i < jsonArray.size(); i++) {
+                grnList.add(gson.fromJson(jsonArray.get(i),GrnDTO.class));
+            }
+        }
+
+        return grnList;
     }
 
     public void moveGrn(GrnDTO grn) {
-        this.grnRepositoryImpl.moveGrn(grn.getId());
+        ApiClient apiClient = new ApiClient();
+        String apiOutput = null;
+        try {
+            apiOutput = apiClient.callAPI("grn?getId="+grn.getId(), "","PUT");
+        }catch(Exception ex){
+            System.out.println(ex.getMessage());
+        }
+
+        if(apiOutput != null && apiOutput.contains("data")){
+            System.out.println(apiOutput);
+        }
     }
 }
