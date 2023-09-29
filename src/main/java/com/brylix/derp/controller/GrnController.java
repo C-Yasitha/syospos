@@ -233,15 +233,19 @@ public class GrnController {
         gridPane.addRow(9, table);
 
         dialog.setResultConverter(dialogButton -> {
-            try {
-                if(!supplierIdTextField.getText().isEmpty() && total>0 && isShelfComboBox.getValue()!=null){
-                    return new GrnDTO(supplierIdTextField.getText(), total, isShelfComboBox.getValue(), table.getItems());
-                }else{
-                    showAlert(Alert.AlertType.ERROR, "Input data error");
+            if (dialogButton == addButton) {
+                try {
+                    if (!supplierIdTextField.getText().isEmpty() && total > 0 && isShelfComboBox.getValue() != null) {
+                        return new GrnDTO(supplierIdTextField.getText(), total, isShelfComboBox.getValue(), table.getItems());
+                    } else {
+                        showAlert(Alert.AlertType.ERROR, "Input data error");
+                        return null;
+                    }
+
+                } catch (Exception e) {
                     return null;
                 }
-
-            }catch (Exception e){
+            }else{
                 return null;
             }
         });

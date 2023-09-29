@@ -211,21 +211,26 @@ public class InvoiceController {
         gridPane.addRow(10, changeLabel);
 
         dialog.setResultConverter(dialogButton -> {
-            try {
-                if(!supplierIdTextField.getText().isEmpty() && total>0 && tendered>0 && invoiceDatePicker.valueProperty()!=null){
-                    LocalDate invoiceDate = invoiceDatePicker.getValue();
-                    Date invoiceDateConverted = Date.from(invoiceDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
-                    float discount=0;
-                    try{
-                        discount = Float.parseFloat(discountTextField.getText());
-                    }catch(NumberFormatException ee){}
-                    return new InvoiceDTO(supplierIdTextField.getText(), invoiceDateConverted,total,discount,tendered, table.getItems());
-                }else{
-                    showAlert(Alert.AlertType.ERROR, "Input data error");
+            if (dialogButton == addButton) {
+                try {
+                    if (!supplierIdTextField.getText().isEmpty() && total > 0 && tendered > 0 && invoiceDatePicker.valueProperty() != null) {
+                        LocalDate invoiceDate = invoiceDatePicker.getValue();
+                        Date invoiceDateConverted = Date.from(invoiceDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
+                        float discount = 0;
+                        try {
+                            discount = Float.parseFloat(discountTextField.getText());
+                        } catch (NumberFormatException ee) {
+                        }
+                        return new InvoiceDTO(supplierIdTextField.getText(), invoiceDateConverted, total, discount, tendered, table.getItems());
+                    } else {
+                        showAlert(Alert.AlertType.ERROR, "Input data error");
+                        return null;
+                    }
+
+                } catch (Exception e) {
                     return null;
                 }
-
-            }catch (Exception e){
+            }else{
                 return null;
             }
         });
