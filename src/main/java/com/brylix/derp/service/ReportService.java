@@ -1,9 +1,7 @@
 package com.brylix.derp.service;
 
 import com.brylix.derp.client.ApiClient;
-import com.brylix.derp.dto.InvoiceItemDTO;
 import com.brylix.derp.dto.ProductDTO;
-import com.brylix.derp.repository.InvoiceRepositoryImpl;
 import com.google.gson.*;
 
 import java.util.ArrayList;

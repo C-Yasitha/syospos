@@ -17,8 +17,6 @@ module com.brylix.derp {
     exports com.brylix.derp.dao;
     exports com.brylix.derp.decorator;
     exports com.brylix.derp.model;
-    exports com.brylix.derp.database;
-    exports com.brylix.derp.migration;
     exports com.brylix.derp.dto;
     exports com.brylix.derp.facade;
     exports com.brylix.derp.factory;

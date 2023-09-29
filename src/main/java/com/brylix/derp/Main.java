@@ -1,6 +1,5 @@
 package com.brylix.derp;
 
-import com.brylix.derp.migration.DatabaseMigration;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -12,8 +11,6 @@ import java.io.IOException;
 public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws IOException {
-        // Run the database migration
-        DatabaseMigration.runMigration();
 
         // Load the Login.fxml file
         Parent root = FXMLLoader.load(getClass().getResource("/com/brylix/derp/view/Login.fxml"));
