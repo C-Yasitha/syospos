@@ -13,9 +13,8 @@ public class UserDecorator implements UserDAO {
     }
 
     @Override
-    public boolean authenticateUser(UserAuthDTO userAuthDTO) {
+    public boolean authenticateUser(UserAuthDTO userAuthDTO) throws Exception {
         //password encription here
-
        return this.userDAO.authenticateUser(userAuthDTO);
     }
 

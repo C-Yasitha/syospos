@@ -12,23 +12,23 @@ public class ProductFacade {
         this.productServiceImpl = new ProductServiceImpl();
     }
 
-    public List<ProductDTO> getAllProducts() {
+    public List<ProductDTO> getAllProducts() throws Exception {
         return this.productServiceImpl.getAllProducts();
     }
 
-    public ProductDTO getProductByCode(String productCode,boolean withStock){
+    public ProductDTO getProductByCode(String productCode,boolean withStock) throws Exception{
         return this.productServiceImpl.getProductByCode(productCode,withStock);
     }
 
-    public void saveProduct(ProductDTO product) {
+    public void saveProduct(ProductDTO product) throws Exception{
         this.productServiceImpl.saveProduct(product);
     }
 
-    public void updateProduct(ProductDTO product) {
+    public void updateProduct(ProductDTO product) throws Exception {
         this.productServiceImpl.updateProduct(product);
     }
 
-    public void deleteProduct(String productCode){
+    public void deleteProduct(String productCode) throws Exception{
         this.productServiceImpl.deleteProduct(productCode);
     }
 }

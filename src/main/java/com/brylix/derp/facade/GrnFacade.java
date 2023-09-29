@@ -12,16 +12,16 @@ public class GrnFacade {
         grnService = new GrnServiceImpl();
     }
 
-    public void saveGrn(GrnDTO grn) {
+    public void saveGrn(GrnDTO grn) throws Exception{
         this.grnService.saveGrn(grn);
     }
 
 
-    public List<GrnDTO> getAllGrns() {
+    public List<GrnDTO> getAllGrns() throws Exception {
         return this.grnService.getAllGrns();
     }
 
-    public void moveGrn(GrnDTO grn) {
+    public void moveGrn(GrnDTO grn) throws Exception {
         this.grnService.moveGrn(grn);
     }
 }

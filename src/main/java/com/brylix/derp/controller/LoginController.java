@@ -84,8 +84,13 @@ public class LoginController {
     public boolean Login(String username,String password){
         // Authenticate the user
         UserAuthDTO enterdUser = new UserAuthDTO(username,password);
-        boolean isAuthenticated = userDAO.authenticateUser(enterdUser);
-        return isAuthenticated;
+        try {
+            boolean isAuthenticated = userDAO.authenticateUser(enterdUser);
+            return isAuthenticated;
+        }catch(Exception e){
+            showAlert(Alert.AlertType.ERROR, "Login Failed", e.getMessage());
+            return false;
+        }
     }
 
     @FXML

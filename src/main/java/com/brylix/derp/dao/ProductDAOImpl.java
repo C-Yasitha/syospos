@@ -15,27 +15,27 @@ public class ProductDAOImpl implements ProductDAO{
     }
 
     @Override
-    public List<ProductDTO> getAllProducts() {
+    public List<ProductDTO> getAllProducts() throws Exception {
        return productFacade.getAllProducts();
     }
 
     @Override
-    public ProductDTO getProductByCode(String productCode,boolean withStock) {
+    public ProductDTO getProductByCode(String productCode,boolean withStock) throws Exception {
         return productFacade.getProductByCode(productCode,withStock);
     }
 
     @Override
-    public void saveProduct(ProductDTO product) {
+    public void saveProduct(ProductDTO product) throws Exception {
         productFacade.saveProduct(product);
     }
 
     @Override
-    public void updateProduct(ProductDTO product) {
+    public void updateProduct(ProductDTO product) throws Exception {
         productFacade.updateProduct(product);
     }
 
     @Override
-    public void deleteProduct(String productCode) {
+    public void deleteProduct(String productCode) throws Exception {
         productFacade.deleteProduct(productCode);
     }
 }

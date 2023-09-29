@@ -20,14 +20,11 @@ public class ProductServiceImpl implements ProductService {
         this.grnRepositoryImpl = new GrnRepositoryImpl();
     }
 
-    public List<ProductDTO> getAllProducts() {
+    public List<ProductDTO> getAllProducts() throws Exception {
         ApiClient apiClient = new ApiClient();
         String apiOutput = null;
-        try {
-            apiOutput = apiClient.callAPI("allProducts", "","GET");
-        }catch(Exception ex){
-            System.out.println(ex.getMessage());
-        }
+
+        apiOutput = apiClient.callAPI("allProducts", "","GET");
 
         List<ProductDTO> prdList  = new ArrayList<>();
         Gson gson = new GsonBuilder()
@@ -37,6 +34,10 @@ public class ProductServiceImpl implements ProductService {
         if(apiOutput != null && apiOutput.contains("data")){
             JsonParser parser = new JsonParser();
             JsonObject jsonObject = parser.parse(apiOutput).getAsJsonObject();
+
+            if(jsonObject.get("status").toString().replaceAll("\"","").equals("error")){
+                throw new Exception(jsonObject.get("data").toString().replaceAll("\"",""));
+            }
 
             String data = jsonObject.get("data").getAsString();
             JsonArray jsonArray = JsonParser.parseString(data).getAsJsonArray();
@@ -49,14 +50,11 @@ public class ProductServiceImpl implements ProductService {
         return prdList;
     }
 
-    public ProductDTO getProductByCode(String productCode,boolean withStock){
+    public ProductDTO getProductByCode(String productCode,boolean withStock) throws Exception{
         ApiClient apiClient = new ApiClient();
         String apiOutput = null;
-        try {
-            apiOutput = apiClient.callAPI("product?productCode="+productCode+"&withStock="+(withStock?"true":"false"), "","GET");
-        }catch(Exception ex){
-            System.out.println(ex.getMessage());
-        }
+
+        apiOutput = apiClient.callAPI("product?productCode="+productCode+"&withStock="+(withStock?"true":"false"), "","GET");
 
         Gson gson = new GsonBuilder()
                 .setDateFormat("yyyy-MM-d H:mm:ss") // setting date format
@@ -65,6 +63,10 @@ public class ProductServiceImpl implements ProductService {
         if(apiOutput != null && apiOutput.contains("data")){
             JsonParser parser = new JsonParser();
             JsonObject jsonObject = parser.parse(apiOutput).getAsJsonObject();
+
+            if(jsonObject.get("status").toString().replaceAll("\"","").equals("error")){
+                throw new Exception(jsonObject.get("data").toString().replaceAll("\"",""));
+            }
 
             String data = jsonObject.get("data").getAsString();
 
@@ -75,45 +77,51 @@ public class ProductServiceImpl implements ProductService {
         }
     }
 
-    public void saveProduct(ProductDTO product) {
+    public void saveProduct(ProductDTO product) throws Exception {
         ApiClient apiClient = new ApiClient();
         String apiOutput = null;
-        try {
-            apiOutput = apiClient.callAPI("product", product.toString(),"POST");
-        }catch(Exception ex){
-            System.out.println(ex.getMessage());
-        }
+
+        apiOutput = apiClient.callAPI("product", product.toString(),"POST");
 
         if(apiOutput != null && apiOutput.contains("data")){
-            System.out.println(apiOutput);
+            JsonParser parser = new JsonParser();
+            JsonObject jsonObject = parser.parse(apiOutput).getAsJsonObject();
+
+            if(jsonObject.get("status").toString().replaceAll("\"","").equals("error")){
+                throw new Exception(jsonObject.get("data").toString().replaceAll("\"",""));
+            }
         }
     }
 
-    public void updateProduct(ProductDTO product) {
+    public void updateProduct(ProductDTO product) throws Exception {
         ApiClient apiClient = new ApiClient();
         String apiOutput = null;
-        try {
-            apiOutput = apiClient.callAPI("product", product.toString(),"PUT");
-        }catch(Exception ex){
-            System.out.println(ex.getMessage());
-        }
+
+        apiOutput = apiClient.callAPI("product", product.toString(),"PUT");
 
         if(apiOutput != null && apiOutput.contains("data")){
-            System.out.println(apiOutput);
+            JsonParser parser = new JsonParser();
+            JsonObject jsonObject = parser.parse(apiOutput).getAsJsonObject();
+
+            if(jsonObject.get("status").toString().replaceAll("\"","").equals("error")){
+                throw new Exception(jsonObject.get("data").toString().replaceAll("\"",""));
+            }
         }
     }
 
-    public void deleteProduct(String productCode){
+    public void deleteProduct(String productCode) throws Exception{
         ApiClient apiClient = new ApiClient();
         String apiOutput = null;
-        try {
-            apiOutput = apiClient.callAPI("product?productCode="+productCode, "","DELETE");
-        }catch(Exception ex){
-            System.out.println(ex.getMessage());
-        }
+
+        apiOutput = apiClient.callAPI("product?productCode="+productCode, "","DELETE");
 
         if(apiOutput != null && apiOutput.contains("data")){
-            System.out.println(apiOutput);
+            JsonParser parser = new JsonParser();
+            JsonObject jsonObject = parser.parse(apiOutput).getAsJsonObject();
+
+            if(jsonObject.get("status").toString().replaceAll("\"","").equals("error")){
+                throw new Exception(jsonObject.get("data").toString().replaceAll("\"",""));
+            }
         }
     }
 

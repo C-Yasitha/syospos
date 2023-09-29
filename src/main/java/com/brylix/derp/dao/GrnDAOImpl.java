@@ -13,17 +13,17 @@ public class GrnDAOImpl implements GrnDAO{
     }
 
     @Override
-    public void saveGrn(GrnDTO grn) {
+    public void saveGrn(GrnDTO grn) throws Exception {
         this.grnFacade.saveGrn(grn);
     }
 
     @Override
-    public List<GrnDTO> getAllGrns() {
+    public List<GrnDTO> getAllGrns() throws Exception{
         return this.grnFacade.getAllGrns();
     }
 
     @Override
-    public void moveGrn(GrnDTO grn) {
+    public void moveGrn(GrnDTO grn) throws Exception{
         this.grnFacade.moveGrn(grn);
     }
 }

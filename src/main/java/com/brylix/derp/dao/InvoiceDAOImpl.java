@@ -14,12 +14,12 @@ public class InvoiceDAOImpl implements InvoiceDAO{
     }
 
     @Override
-    public void saveInvoice(InvoiceDTO invoice) {
+    public void saveInvoice(InvoiceDTO invoice) throws Exception {
         this.invoiceFacade.saveInvoice(invoice);
     }
 
     @Override
-    public List<InvoiceDTO> getAllInvoices() {
+    public List<InvoiceDTO> getAllInvoices() throws Exception {
         return this.invoiceFacade.getAllInvoices();
     }
 }

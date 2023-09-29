@@ -11,7 +11,7 @@ public class UserDAOImpl implements UserDAO{
         registrationFacade = new UserFacade();
     }
     @Override
-    public boolean authenticateUser(UserAuthDTO userAuthDTO) {
+    public boolean authenticateUser(UserAuthDTO userAuthDTO) throws Exception {
         return this.registrationFacade.authenticateUser(userAuthDTO);
     }
 

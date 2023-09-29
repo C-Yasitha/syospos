@@ -67,7 +67,7 @@ public class ProductsController {
             }
             configureTableColumns();
         } catch (Exception e) {
-            e.printStackTrace();
+            showAlert(Alert.AlertType.ERROR, "Product list : "+e.getMessage());
             // Handle the exception according to your application's error handling mechanism
         }
     }
@@ -100,10 +100,14 @@ public class ProductsController {
                     Optional<ButtonType> result = alert.showAndWait();
                     if (result.isPresent() && result.get() == ButtonType.OK) {
                         // User clicked OK, delete the product
-                        productDAO.deleteProduct(product.getProductCode());
-                        // Perform any additional actions or UI updates after deleting the product
-                        showAlert(Alert.AlertType.ERROR, "Product deleted.");
-                        loadProducts();
+                        try {
+                            productDAO.deleteProduct(product.getProductCode());
+                            // Perform any additional actions or UI updates after deleting the product
+                            showAlert(Alert.AlertType.INFORMATION, "Product deleted.");
+                            loadProducts();
+                        }catch(Exception e){
+                            showAlert(Alert.AlertType.ERROR, "Product delete : "+e.getMessage());
+                        }
                     }
                 });
             }
@@ -322,12 +326,18 @@ public class ProductsController {
                 // Save or update the product using the product repository
                 if (productToUpdate != null) {
                     // Update the existing product
-                    productDAO.updateProduct(product);
-                    showAlert(Alert.AlertType.INFORMATION, "Product updated successfully.");
+                    try {
+                        productDAO.updateProduct(product);
+                        showAlert(Alert.AlertType.INFORMATION, "Product updated successfully.");
+                    }catch(Exception e){
+                        showAlert(Alert.AlertType.ERROR, "Product save : "+e.getMessage());
+                    }
                 } else {
                     // Create a new product
-                    saveProductWithValidation(product);
-                    showAlert(Alert.AlertType.INFORMATION, "Product created successfully.");
+                    boolean isSaved = saveProductWithValidation(product);
+                    if(isSaved) {
+                        showAlert(Alert.AlertType.INFORMATION, "Product created successfully.");
+                    }
                 }
                 // Refresh the product list view
                 loadProducts();
@@ -336,8 +346,14 @@ public class ProductsController {
 
     public boolean saveProductWithValidation(ProductDTO product){
         if(product.getProductCode()!=null && product.getProductName()!=null && product.getPrice()!=null && product.getLowLevel()>0){
-            productDAO.saveProduct(product);
-            return true;
+            try {
+                productDAO.saveProduct(product);
+                return true;
+            }catch(Exception e){
+                showAlert(Alert.AlertType.ERROR, "Product save : "+e.getMessage());
+                return false;
+            }
+
         }else{
             return false;
         }

@@ -15,27 +15,28 @@ public class UserServiceImpl implements UserService {
         this.userRepositoryImpl = new UserRepositoryImpl();
     }
 
-    public boolean authenticateUser(UserAuthDTO userAuthDTO) {
+    public boolean authenticateUser(UserAuthDTO userAuthDTO) throws Exception {
         if(userAuthDTO.getUserName()!=null && userAuthDTO.getPassword()!=null){
             ApiClient apiClient = new ApiClient();
             String apiOutput = null;
-            try {
-                apiOutput = apiClient.callAPI("user", userAuthDTO.toString(),"POST");
-            }catch(Exception ex){
-                System.out.println(ex.getMessage());
-            }
+            apiOutput = apiClient.callAPI("user", userAuthDTO.toString(),"POST");
 
             if(apiOutput != null && apiOutput.contains("data")){
                 JsonParser parser = new JsonParser();
                 JsonObject jsonObject = parser.parse(apiOutput).getAsJsonObject();
 
-                if(jsonObject.get("status").toString().equals("\"success\"") && jsonObject.get("data").toString().equals("\"true\"")){
+                if(jsonObject.get("status").toString().replaceAll("\"","").equals("error")){
+                    throw new Exception(jsonObject.get("data").toString().replaceAll("\"",""));
+                }
+
+                if(jsonObject.get("data").toString().replaceAll("\"","").equals("true")){
                     return true;
                 }else{
                     return false;
                 }
             }else{
-                return false;
+                //show error
+                throw new Exception("Server error");
             }
         }else{
             return false;

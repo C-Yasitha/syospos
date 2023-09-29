@@ -14,27 +14,27 @@ public class ProductDecorator implements ProductDAO {
     }
 
     @Override
-    public List<ProductDTO> getAllProducts() {
+    public List<ProductDTO> getAllProducts() throws Exception {
         return this.productDAO.getAllProducts();
     }
 
     @Override
-    public ProductDTO getProductByCode(String productCode,boolean withStock) {
+    public ProductDTO getProductByCode(String productCode,boolean withStock) throws Exception {
         return this.productDAO.getProductByCode(productCode,withStock);
     }
 
     @Override
-    public void saveProduct(ProductDTO product) {
+    public void saveProduct(ProductDTO product) throws Exception {
         this.productDAO.saveProduct(product);
     }
 
     @Override
-    public void updateProduct(ProductDTO product) {
+    public void updateProduct(ProductDTO product) throws Exception {
         this.productDAO.updateProduct(product);
     }
 
     @Override
-    public void deleteProduct(String productCode) {
+    public void deleteProduct(String productCode) throws Exception {
         this.productDAO.deleteProduct(productCode);
     }
 

@@ -13,12 +13,12 @@ public class InvoiceDecorator implements InvoiceDAO {
     }
 
     @Override
-    public void saveInvoice(InvoiceDTO invoice) {
+    public void saveInvoice(InvoiceDTO invoice) throws Exception {
         this.invoiceDAO.saveInvoice(invoice);
     }
 
     @Override
-    public List<InvoiceDTO> getAllInvoices() {
+    public List<InvoiceDTO> getAllInvoices() throws Exception {
         return this.invoiceDAO.getAllInvoices();
     }
 }

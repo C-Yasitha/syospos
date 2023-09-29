@@ -58,7 +58,7 @@ public class InvoiceController {
             }
             configureTableColumns();
         } catch (Exception e) {
-            e.printStackTrace();
+            showAlert(Alert.AlertType.ERROR, "Invoice list  :"+e.getMessage());
             // Handle the exception according to your application's error handling mechanism
         }
     }
@@ -145,35 +145,39 @@ public class InvoiceController {
         // Set up the Add button action
         addToTable.setOnAction(event -> {
             String productCode = productCodeTextField.getText();
-            ProductDTO selectedProduct = productDAO.getProductByCode(productCode,true);
-            if(selectedProduct!=null){
-                try{
-                    String quantity = productQtyTextField.getText();
-                    Float qty = Float.parseFloat(quantity);
-                    if(selectedProduct.getQty() > 0 && selectedProduct.getQty()>=qty){
-                        String price = productCostTextField.getText();
-                        total += Float.parseFloat(quantity)*Float.parseFloat(price);
-                        String productName = selectedProduct.getProductName();
+            try {
+                ProductDTO selectedProduct = productDAO.getProductByCode(productCode, true);
+                if (selectedProduct != null) {
+                    try {
+                        String quantity = productQtyTextField.getText();
+                        Float qty = Float.parseFloat(quantity);
+                        if (selectedProduct.getQty() > 0 && selectedProduct.getQty() >= qty) {
+                            String price = productCostTextField.getText();
+                            total += Float.parseFloat(quantity) * Float.parseFloat(price);
+                            String productName = selectedProduct.getProductName();
 
-                        InvoiceItemDTO invoiceItem = new InvoiceItemDTO(selectedProduct.getId(), productName,Float.parseFloat(price),qty);
-                        table.getItems().add(invoiceItem);
+                            InvoiceItemDTO invoiceItem = new InvoiceItemDTO(selectedProduct.getId(), productName, Float.parseFloat(price), qty);
+                            table.getItems().add(invoiceItem);
 
-                        productCodeTextField.setText("");
-                        productQtyTextField.setText("");
-                        productCostTextField.setText("");
-                        productCodeTextField.requestFocus();
-                        totalLabel.setText("Total: "+total);
-                    }else{
-                        showAlert(Alert.AlertType.ERROR, "No stock in the shelf");
+                            productCodeTextField.setText("");
+                            productQtyTextField.setText("");
+                            productCostTextField.setText("");
+                            productCodeTextField.requestFocus();
+                            totalLabel.setText("Total: " + total);
+                        } else {
+                            showAlert(Alert.AlertType.ERROR, "No stock in the shelf");
+                        }
+
+                    } catch (NumberFormatException e) {
+                        showAlert(Alert.AlertType.ERROR, "Check entered numbers");
                     }
 
-                }catch(NumberFormatException e){
-                    showAlert(Alert.AlertType.ERROR, "Check entered numbers");
+                    //change total label
+                } else {
+                    showAlert(Alert.AlertType.ERROR, "Product not found.");
                 }
-
-                //change total label
-            }else{
-                showAlert(Alert.AlertType.ERROR, "Product not found.");
+            }catch(Exception e){
+                showAlert(Alert.AlertType.ERROR, "Product error : "+e.getMessage());
             }
         });
 
@@ -230,10 +234,12 @@ public class InvoiceController {
         Optional<InvoiceDTO> result = dialog.showAndWait();
         result.ifPresent(invoice -> {
             if(invoice!=null){
-                // productDAO.saveProduct(product);
-                invoiceDAO.saveInvoice(invoice);
-                //  loadProducts();
-                loadProducts();
+                try {
+                    invoiceDAO.saveInvoice(invoice);
+                    loadProducts();
+                }catch(Exception e){
+                    showAlert(Alert.AlertType.ERROR, "Save invoice : "+e.getMessage());
+                }
             }
         });
     }

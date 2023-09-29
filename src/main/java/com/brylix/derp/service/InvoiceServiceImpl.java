@@ -20,28 +20,27 @@ public class InvoiceServiceImpl implements InvoiceService {
         this.grnRepositoryImpl = new GrnRepositoryImpl();
     }
 
-    public void saveInvoice(InvoiceDTO invoice) {
+    public void saveInvoice(InvoiceDTO invoice) throws Exception {
         ApiClient apiClient = new ApiClient();
         String apiOutput = null;
-        try {
-            apiOutput = apiClient.callAPI("invoice", invoice.toString(),"POST");
-        }catch(Exception ex){
-            System.out.println(ex.getMessage());
-        }
+
+        apiOutput = apiClient.callAPI("invoice", invoice.toString(),"POST");
 
         if(apiOutput != null && apiOutput.contains("data")){
-            System.out.println(apiOutput);
+            JsonParser parser = new JsonParser();
+            JsonObject jsonObject = parser.parse(apiOutput).getAsJsonObject();
+
+            if(jsonObject.get("status").toString().replaceAll("\"","").equals("error")){
+                throw new Exception(jsonObject.get("data").toString().replaceAll("\"",""));
+            }
         }
     }
 
-    public List<InvoiceDTO> getAllInvoices() {
+    public List<InvoiceDTO> getAllInvoices() throws Exception {
         ApiClient apiClient = new ApiClient();
         String apiOutput = null;
-        try {
-            apiOutput = apiClient.callAPI("invoice", "","GET");
-        }catch(Exception ex){
-            System.out.println(ex.getMessage());
-        }
+
+        apiOutput = apiClient.callAPI("invoice", "","GET");
 
         List<InvoiceDTO> invList  = new ArrayList<>();
         Gson gson = new GsonBuilder()
@@ -51,6 +50,10 @@ public class InvoiceServiceImpl implements InvoiceService {
         if(apiOutput != null && apiOutput.contains("data")){
             JsonParser parser = new JsonParser();
             JsonObject jsonObject = parser.parse(apiOutput).getAsJsonObject();
+
+            if(jsonObject.get("status").toString().replaceAll("\"","").equals("error")){
+                throw new Exception(jsonObject.get("data").toString().replaceAll("\"",""));
+            }
 
             String data = jsonObject.get("data").getAsString();
             JsonArray jsonArray = JsonParser.parseString(data).getAsJsonArray();

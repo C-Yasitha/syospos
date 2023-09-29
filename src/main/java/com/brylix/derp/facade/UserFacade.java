@@ -11,7 +11,7 @@ public class UserFacade {
         this.userServiceImpl = new UserServiceImpl();
     }
 
-    public boolean authenticateUser(UserAuthDTO userAuthDTO){
+    public boolean authenticateUser(UserAuthDTO userAuthDTO) throws Exception{
        return userServiceImpl.authenticateUser(userAuthDTO);
     }
 }

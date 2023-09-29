@@ -4,6 +4,6 @@ import com.brylix.derp.dto.UserAuthDTO;
 import com.brylix.derp.dto.UserCreateDTO;
 
 public interface UserDAO {
-    boolean authenticateUser(UserAuthDTO userAuthDTO);
+    boolean authenticateUser(UserAuthDTO userAuthDTO) throws Exception;
     void createUser(UserCreateDTO user);
 }

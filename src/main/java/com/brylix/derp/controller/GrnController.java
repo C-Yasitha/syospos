@@ -66,7 +66,7 @@ public class GrnController {
             }
             configureTableColumns();
         } catch (Exception e) {
-            e.printStackTrace();
+            showAlert(Alert.AlertType.ERROR, "GRN List : "+e.getMessage());
             // Handle the exception according to your application's error handling mechanism
         }
     }
@@ -92,10 +92,14 @@ public class GrnController {
                     Optional<ButtonType> result = alert.showAndWait();
                     if (result.isPresent() && result.get() == ButtonType.OK) {
                         // User clicked OK, delete the product
-                        grnDAO.moveGrn(grn);
-                        // Perform any additional actions or UI updates after deleting the product
-                        showAlert(Alert.AlertType.INFORMATION, "Grn Moved.");
-                        loadProducts();
+                        try {
+                            grnDAO.moveGrn(grn);
+                            // Perform any additional actions or UI updates after deleting the product
+                            showAlert(Alert.AlertType.INFORMATION, "Grn Moved.");
+                            loadProducts();
+                        }catch(Exception e){
+                            showAlert(Alert.AlertType.ERROR, "Grn Moved : "+e.getMessage());
+                        }
                     }
                 });
             }
@@ -181,34 +185,37 @@ public class GrnController {
         // Set up the Add button action
         addToTable.setOnAction(event -> {
             String productCode = productCodeTextField.getText();
-            ProductDTO selectedProduct = productDAO.getProductByCode(productCode,false);
-            if(selectedProduct!=null){
-                try{
-                    String quantity = productQtyTextField.getText();
-                    String cost = productCostTextField.getText();
-                    LocalDate expiryDate = expiryDatePicker.getValue();
-                    Date expiryDateConverted = Date.from(expiryDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
-                    total += Float.parseFloat(quantity)*Float.parseFloat(cost);
-                    String productName = selectedProduct.getProductName();
+            try {
+                ProductDTO selectedProduct = productDAO.getProductByCode(productCode, false);
+                if (selectedProduct != null) {
+                    try {
+                        String quantity = productQtyTextField.getText();
+                        String cost = productCostTextField.getText();
+                        LocalDate expiryDate = expiryDatePicker.getValue();
+                        Date expiryDateConverted = Date.from(expiryDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
+                        total += Float.parseFloat(quantity) * Float.parseFloat(cost);
+                        String productName = selectedProduct.getProductName();
 
-                    GrnItemDTO gtnItem = new GrnItemDTO(selectedProduct.getId(), productName, expiryDateConverted,Float.parseFloat(quantity), Float.parseFloat(cost));
-                    table.getItems().add(gtnItem);
+                        GrnItemDTO gtnItem = new GrnItemDTO(selectedProduct.getId(), productName, expiryDateConverted, Float.parseFloat(quantity), Float.parseFloat(cost));
+                        table.getItems().add(gtnItem);
 
-                    productCodeTextField.setText("");
-                    productQtyTextField.setText("");
-                    productCostTextField.setText("");
-                    productCodeTextField.requestFocus();
-                    expiryDatePicker.setValue(null);
-                    totalLabel.setText("Total: "+total);
-                }catch(NumberFormatException e){
-                    showAlert(Alert.AlertType.ERROR, "Check entered numbers");
+                        productCodeTextField.setText("");
+                        productQtyTextField.setText("");
+                        productCostTextField.setText("");
+                        productCodeTextField.requestFocus();
+                        expiryDatePicker.setValue(null);
+                        totalLabel.setText("Total: " + total);
+                    } catch (NumberFormatException e) {
+                        showAlert(Alert.AlertType.ERROR, "Check entered numbers");
+                    }
+
+                    //change total label
+                } else {
+                    showAlert(Alert.AlertType.ERROR, "Product not found.");
                 }
-
-                //change total label
-            }else{
-                showAlert(Alert.AlertType.ERROR, "Product not found.");
+            }catch(Exception e){
+                showAlert(Alert.AlertType.ERROR, "Product error : "+e.getMessage());
             }
-
 
         });
 
@@ -254,7 +261,11 @@ public class GrnController {
 
     public boolean CreateGrn(GrnDTO grnDTO){
         if(grnDTO.getGrnItems().size()>0 && grnDTO.getSupplierName()!=null && grnDTO.getTotal()>0){
-            grnDAO.saveGrn(grnDTO);
+            try {
+                grnDAO.saveGrn(grnDTO);
+            }catch(Exception e){
+                showAlert(Alert.AlertType.ERROR, e.getMessage());
+            }
             return true;
         }else{
             return false;

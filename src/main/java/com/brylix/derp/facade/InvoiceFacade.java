@@ -14,11 +14,11 @@ public class InvoiceFacade {
         invoiceServiceImpl = new InvoiceServiceImpl();
     }
 
-    public void saveInvoice(InvoiceDTO invoice) {
+    public void saveInvoice(InvoiceDTO invoice) throws Exception {
         this.invoiceServiceImpl.saveInvoice(invoice);
     }
 
-    public List<InvoiceDTO> getAllInvoices() {
+    public List<InvoiceDTO> getAllInvoices() throws Exception {
         return this.invoiceServiceImpl.getAllInvoices();
     }
 }

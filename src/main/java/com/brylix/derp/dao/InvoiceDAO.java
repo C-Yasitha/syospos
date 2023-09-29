@@ -6,6 +6,6 @@ import com.brylix.derp.dto.InvoiceDTO;
 import java.util.List;
 
 public interface InvoiceDAO {
-    public void saveInvoice(InvoiceDTO invoice);
-    public List<InvoiceDTO> getAllInvoices();
+    public void saveInvoice(InvoiceDTO invoice) throws Exception;
+    public List<InvoiceDTO> getAllInvoices() throws Exception;
 }

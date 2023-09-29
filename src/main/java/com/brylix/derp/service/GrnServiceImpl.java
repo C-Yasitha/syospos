@@ -21,32 +21,27 @@ public class GrnServiceImpl implements GrnService {
         this.grnRepositoryImpl = new GrnRepositoryImpl();
     }
 
-    public void saveGrn(GrnDTO grn) {
+    public void saveGrn(GrnDTO grn) throws Exception {
         Date addedDate = Date.from(LocalDate.now().atStartOfDay(ZoneId.systemDefault()).toInstant());
         grn.setGrnDate(addedDate);
 
         ApiClient apiClient = new ApiClient();
         String apiOutput = null;
-        try {
-            apiOutput = apiClient.callAPI("grn", grn.toString(),"POST");
-        }catch(Exception ex){
-            System.out.println(ex.getMessage());
-        }
+        apiOutput = apiClient.callAPI("grn", grn.toString(),"POST");
 
         if(apiOutput != null && apiOutput.contains("data")){
-            System.out.println(apiOutput);
+            JsonParser parser = new JsonParser();
+            JsonObject jsonObject = parser.parse(apiOutput).getAsJsonObject();
+            if(jsonObject.get("status").toString().replaceAll("\"","").equals("error")){
+                throw new Exception(jsonObject.get("data").toString().replaceAll("\"",""));
+            }
         }
     }
 
-    public List<GrnDTO> getAllGrns() {
-
+    public List<GrnDTO> getAllGrns() throws Exception {
         ApiClient apiClient = new ApiClient();
         String apiOutput = null;
-        try {
-            apiOutput = apiClient.callAPI("grn", "","GET");
-        }catch(Exception ex){
-            System.out.println(ex.getMessage());
-        }
+        apiOutput = apiClient.callAPI("grn", "","GET");
 
         List<GrnDTO> grnList  = new ArrayList<>();
         Gson gson = new GsonBuilder()
@@ -56,6 +51,10 @@ public class GrnServiceImpl implements GrnService {
         if(apiOutput != null && apiOutput.contains("data")){
             JsonParser parser = new JsonParser();
             JsonObject jsonObject = parser.parse(apiOutput).getAsJsonObject();
+
+            if(jsonObject.get("status").toString().replaceAll("\"","").equals("error")){
+                throw new Exception(jsonObject.get("data").toString().replaceAll("\"",""));
+            }
 
             String data = jsonObject.get("data").getAsString();
             JsonArray jsonArray = JsonParser.parseString(data).getAsJsonArray();
@@ -68,17 +67,18 @@ public class GrnServiceImpl implements GrnService {
         return grnList;
     }
 
-    public void moveGrn(GrnDTO grn) {
+    public void moveGrn(GrnDTO grn) throws Exception{
         ApiClient apiClient = new ApiClient();
         String apiOutput = null;
-        try {
-            apiOutput = apiClient.callAPI("grn?getId="+grn.getId(), "","PUT");
-        }catch(Exception ex){
-            System.out.println(ex.getMessage());
-        }
+        apiOutput = apiClient.callAPI("grn?getId="+grn.getId(), "","PUT");
 
         if(apiOutput != null && apiOutput.contains("data")){
-            System.out.println(apiOutput);
+            JsonParser parser = new JsonParser();
+            JsonObject jsonObject = parser.parse(apiOutput).getAsJsonObject();
+
+            if(jsonObject.get("status").toString().replaceAll("\"","").equals("error")){
+                throw new Exception(jsonObject.get("data").toString().replaceAll("\"",""));
+            }
         }
     }
 }
