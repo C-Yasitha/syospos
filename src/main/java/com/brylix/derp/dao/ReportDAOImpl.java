@@ -11,7 +11,7 @@ public class ReportDAOImpl implements ReportDAO{
     }
 
     @Override
-    public String TotalSale(String date) {
+    public String TotalSale(String date) throws Exception {
         return this.reportFacade.TotalSale(date);
     }
 

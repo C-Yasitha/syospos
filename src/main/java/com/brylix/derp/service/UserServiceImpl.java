@@ -3,21 +3,18 @@ package com.brylix.derp.service;
 import com.brylix.derp.client.ApiClient;
 import com.brylix.derp.dao.UserService;
 import com.brylix.derp.dto.UserAuthDTO;
-import com.brylix.derp.model.User;
-import com.brylix.derp.repository.UserRepositoryImpl;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 public class UserServiceImpl implements UserService {
-    private UserRepositoryImpl userRepositoryImpl;
+    ApiClient apiClient;
 
     public UserServiceImpl() {
-        this.userRepositoryImpl = new UserRepositoryImpl();
+        this.apiClient = new ApiClient();
     }
 
     public boolean authenticateUser(UserAuthDTO userAuthDTO) throws Exception {
         if(userAuthDTO.getUserName()!=null && userAuthDTO.getPassword()!=null){
-            ApiClient apiClient = new ApiClient();
             String apiOutput = null;
             apiOutput = apiClient.callAPI("user", userAuthDTO.toString(),"POST");
 

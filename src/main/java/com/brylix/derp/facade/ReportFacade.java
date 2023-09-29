@@ -10,7 +10,7 @@ public class ReportFacade {
         this.reportService = new ReportService();
     }
 
-    public String TotalSale(String date) {
+    public String TotalSale(String date) throws Exception {
         return this.reportService.TotalSale(date);
     }
 

@@ -2,26 +2,20 @@ package com.brylix.derp.service;
 
 import com.brylix.derp.client.ApiClient;
 import com.brylix.derp.dao.InvoiceService;
-import com.brylix.derp.dto.GrnDTO;
 import com.brylix.derp.dto.InvoiceDTO;
-import com.brylix.derp.repository.GrnRepositoryImpl;
-import com.brylix.derp.repository.InvoiceRepositoryImpl;
 import com.google.gson.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class InvoiceServiceImpl implements InvoiceService {
-    private InvoiceRepositoryImpl invoiceRepositoryImpl;
-    private GrnRepositoryImpl grnRepositoryImpl;
+    ApiClient apiClient;
 
     public InvoiceServiceImpl() {
-        this.invoiceRepositoryImpl = new InvoiceRepositoryImpl();
-        this.grnRepositoryImpl = new GrnRepositoryImpl();
+        this.apiClient = new ApiClient();
     }
 
     public void saveInvoice(InvoiceDTO invoice) throws Exception {
-        ApiClient apiClient = new ApiClient();
         String apiOutput = null;
 
         apiOutput = apiClient.callAPI("invoice", invoice.toString(),"POST");
@@ -37,7 +31,6 @@ public class InvoiceServiceImpl implements InvoiceService {
     }
 
     public List<InvoiceDTO> getAllInvoices() throws Exception {
-        ApiClient apiClient = new ApiClient();
         String apiOutput = null;
 
         apiOutput = apiClient.callAPI("invoice", "","GET");

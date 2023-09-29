@@ -3,25 +3,19 @@ package com.brylix.derp.service;
 import com.brylix.derp.client.ApiClient;
 import com.brylix.derp.dao.ProductService;
 import com.brylix.derp.dto.ProductDTO;
-import com.brylix.derp.model.Product;
-import com.brylix.derp.repository.GrnRepositoryImpl;
-import com.brylix.derp.repository.ProductRepositoryImpl;
 import com.google.gson.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class ProductServiceImpl implements ProductService {
-    private ProductRepositoryImpl productRepositoryImpl;
-    private GrnRepositoryImpl grnRepositoryImpl;
+    ApiClient apiClient;
 
     public ProductServiceImpl() {
-        this.productRepositoryImpl = new ProductRepositoryImpl();
-        this.grnRepositoryImpl = new GrnRepositoryImpl();
+        this.apiClient = new ApiClient();
     }
 
     public List<ProductDTO> getAllProducts() throws Exception {
-        ApiClient apiClient = new ApiClient();
         String apiOutput = null;
 
         apiOutput = apiClient.callAPI("allProducts", "","GET");
@@ -51,7 +45,6 @@ public class ProductServiceImpl implements ProductService {
     }
 
     public ProductDTO getProductByCode(String productCode,boolean withStock) throws Exception{
-        ApiClient apiClient = new ApiClient();
         String apiOutput = null;
 
         apiOutput = apiClient.callAPI("product?productCode="+productCode+"&withStock="+(withStock?"true":"false"), "","GET");
@@ -78,7 +71,6 @@ public class ProductServiceImpl implements ProductService {
     }
 
     public void saveProduct(ProductDTO product) throws Exception {
-        ApiClient apiClient = new ApiClient();
         String apiOutput = null;
 
         apiOutput = apiClient.callAPI("product", product.toString(),"POST");
@@ -94,7 +86,6 @@ public class ProductServiceImpl implements ProductService {
     }
 
     public void updateProduct(ProductDTO product) throws Exception {
-        ApiClient apiClient = new ApiClient();
         String apiOutput = null;
 
         apiOutput = apiClient.callAPI("product", product.toString(),"PUT");
@@ -110,7 +101,6 @@ public class ProductServiceImpl implements ProductService {
     }
 
     public void deleteProduct(String productCode) throws Exception{
-        ApiClient apiClient = new ApiClient();
         String apiOutput = null;
 
         apiOutput = apiClient.callAPI("product?productCode="+productCode, "","DELETE");

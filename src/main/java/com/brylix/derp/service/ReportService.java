@@ -1,39 +1,44 @@
 package com.brylix.derp.service;
 
+import com.brylix.derp.client.ApiClient;
 import com.brylix.derp.dto.InvoiceItemDTO;
+import com.brylix.derp.dto.ProductDTO;
 import com.brylix.derp.repository.InvoiceRepositoryImpl;
+import com.google.gson.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ReportService {
 
-    private InvoiceRepositoryImpl invoiceRepositoryImpl;
+    ApiClient apiClient;
 
     public ReportService() {
-        this.invoiceRepositoryImpl = new InvoiceRepositoryImpl();
+        this.apiClient = new ApiClient();
     }
 
-    public String TotalSale(String date) {
-        List<InvoiceItemDTO> invoiceItemDTOS = this.invoiceRepositoryImpl.getTotalSale(date);
-        String outPut = " <table>\n" ;
-        Float totalQty = 0.00F;
-        Float totalPrice = 0.00F;
-        for (InvoiceItemDTO invoiceItemDTO : invoiceItemDTOS){
-            outPut +=  "        <tr>\n" +
-                        "            <th>"+invoiceItemDTO.getProductName()+"</th>\n" +
-                        "            <th>"+invoiceItemDTO.getProductCode()+"</th>\n" +
-                        "            <th>"+invoiceItemDTO.getQty()+"</th>\n" +
-                        "            <th>"+invoiceItemDTO.getPrice()+"</th>\n" +
-                        "        </tr>\n" ;
-            totalQty += invoiceItemDTO.getQty();
-            totalPrice += invoiceItemDTO.getPrice();
+    public String TotalSale(String date) throws Exception {
+        String apiOutput = null;
+        String data = "";
+        apiOutput = apiClient.callAPI("report?report=TotalSale&date="+date, "","GET");
+
+        List<ProductDTO> prdList  = new ArrayList<>();
+        Gson gson = new GsonBuilder()
+                .setDateFormat("yyyy-MM-d H:mm:ss") // setting date format
+                .create();
+
+        if(apiOutput != null && apiOutput.contains("data")){
+            JsonParser parser = new JsonParser();
+            JsonObject jsonObject = parser.parse(apiOutput).getAsJsonObject();
+
+            if(jsonObject.get("status").toString().replaceAll("\"","").equals("error")){
+                throw new Exception(jsonObject.get("data").toString().replaceAll("\"",""));
+            }
+
+            data = jsonObject.get("data").getAsString();
         }
 
-        outPut += "    </table>\n"+
-                    "    <h3>Total Quantity: "+totalQty+"</h3>\n" +
-                    "    <h3>Total Revenue: "+totalPrice+"</h3>\n";
-
-        return outPut;
+        return data;
     }
 
     public String Reshelved(String date) {

@@ -1,11 +1,8 @@
 package com.brylix.derp.service;
 
 import com.brylix.derp.client.ApiClient;
-import com.brylix.derp.dao.GrnRepository;
 import com.brylix.derp.dao.GrnService;
 import com.brylix.derp.dto.GrnDTO;
-import com.brylix.derp.dto.ProductDTO;
-import com.brylix.derp.repository.GrnRepositoryImpl;
 import com.google.gson.*;
 
 import java.time.LocalDate;
@@ -15,17 +12,16 @@ import java.util.Date;
 import java.util.List;
 
 public class GrnServiceImpl implements GrnService {
-    GrnRepositoryImpl grnRepositoryImpl;
+    ApiClient apiClient;
 
     public GrnServiceImpl() {
-        this.grnRepositoryImpl = new GrnRepositoryImpl();
+        this.apiClient = new ApiClient();
     }
 
     public void saveGrn(GrnDTO grn) throws Exception {
         Date addedDate = Date.from(LocalDate.now().atStartOfDay(ZoneId.systemDefault()).toInstant());
         grn.setGrnDate(addedDate);
 
-        ApiClient apiClient = new ApiClient();
         String apiOutput = null;
         apiOutput = apiClient.callAPI("grn", grn.toString(),"POST");
 
@@ -39,7 +35,6 @@ public class GrnServiceImpl implements GrnService {
     }
 
     public List<GrnDTO> getAllGrns() throws Exception {
-        ApiClient apiClient = new ApiClient();
         String apiOutput = null;
         apiOutput = apiClient.callAPI("grn", "","GET");
 
@@ -68,7 +63,6 @@ public class GrnServiceImpl implements GrnService {
     }
 
     public void moveGrn(GrnDTO grn) throws Exception{
-        ApiClient apiClient = new ApiClient();
         String apiOutput = null;
         apiOutput = apiClient.callAPI("grn?getId="+grn.getId(), "","PUT");
 
