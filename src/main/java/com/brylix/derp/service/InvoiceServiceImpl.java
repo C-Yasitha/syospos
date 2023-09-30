@@ -15,7 +15,7 @@ public class InvoiceServiceImpl implements InvoiceService {
         this.apiClient = new ApiClient();
     }
 
-    public void saveInvoice(InvoiceDTO invoice) throws Exception {
+    public boolean saveInvoice(InvoiceDTO invoice) throws Exception {
         String apiOutput = null;
       //  System.out.println(invoice.toString());
         apiOutput = apiClient.callAPI("invoice", invoice.toString(),"POST");
@@ -27,6 +27,10 @@ public class InvoiceServiceImpl implements InvoiceService {
             if(jsonObject.get("status").toString().replaceAll("\"","").equals("error")){
                 throw new Exception(jsonObject.get("data").toString().replaceAll("\"",""));
             }
+
+            return true;
+        }else{
+            return false;
         }
     }
 
